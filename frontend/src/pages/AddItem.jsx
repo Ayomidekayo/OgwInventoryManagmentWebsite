@@ -1,0 +1,3 @@
+import {useState} from 'react';
+import api from '../api/apiClient';
+export default function AddItem(){ const [name,setName]=useState(''); const [type,setType]=useState(''); const [qty,setQty]=useState(0); const submit=async e=>{ e.preventDefault(); await api.post('/items',{name,type,quantity:Number(qty)}); alert('Added'); window.location='/items'; }; return (<form onSubmit={submit}><h3>Add Item</h3><input value={name} onChange={e=>setName(e.target.value)} placeholder='name'/><br/><input value={type} onChange={e=>setType(e.target.value)} placeholder='type'/><br/><input value={qty} onChange={e=>setQty(e.target.value)} placeholder='quantity' type='number'/><br/><button>Add</button></form>); }
