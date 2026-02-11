@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: 'https://ogwbackend.vercel.app/api', // Update with your backend URL
   // you can also set default headers here if needed
 });
 
