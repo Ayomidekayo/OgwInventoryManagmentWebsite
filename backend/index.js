@@ -1,7 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-
 import { connectDB } from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
@@ -11,37 +10,23 @@ import returnRoutes from "./routes/returnRoutes.js";
 import { errorHandler } from "./middleware/errorMidddleware.js";
 
 dotenv.config();
-
-// Connect to MongoDB
 connectDB();
 
 const app = express();
 
-const allowedOrigins = ["http://localhost:5173"];
-const corsOptions = {
-  origin: (origin, callback) => {
-    console.log("CORS check, origin:", origin);
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS: " + origin));
-    }
-  },
-  credentials: true,
-};
+app.use(cors());
+app.use(express.json());
 
-// Middleware
-app.use(cors(corsOptions));      // Apply CORS globally
-app.use(express.json());         // Parse JSON bodies
+app.get("/", (req, res) => {
+  res.send("Store Management API is running...");
+});
 
-// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/item", itemRoutes);
 app.use("/api/release", releaseRoutes);
 app.use("/api/return", returnRoutes);
 
-// Error handler
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
